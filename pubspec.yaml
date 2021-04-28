@@ -1,7 +1,7 @@
 name: pdf_merger
 description: A new Flutter plugin fro merge PDF.
 version: 0.0.1
-homepage:
+homepage: https://github.com/abhay0648/pdf_merger
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
