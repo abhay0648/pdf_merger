@@ -14,7 +14,7 @@ A new Flutter plugin for merge List of PDF files.
       print('Failed to get platform version.');\
     }
     
-Response -> "Success" when file save successfully otherwise "Error" message come.\
+Response -> "Success" when file save successfully otherwise "Error" message come.
 
 paths -> List<String> path\
 outputDirPath -> Add output directly path with file name. Example "0/Android/download/abc.pdf"
@@ -22,15 +22,15 @@ outputDirPath -> Add output directly path with file name. Example "0/Android/dow
 
 ## Usage
 
-See Example. Use with file picker and add permission handler before calling pdf_merger.\
+See Example. Use with file picker and add permission handler before calling pdf_merger.
 
-file_picker\
+file_picker
 
-https://pub.dev/packages/file_picker\
+https://pub.dev/packages/file_picker
 
-permission_handler\
+permission_handler
 
-https://pub.dev/packages/permission_handler \
+https://pub.dev/packages/permission_handler 
 
 
 ## Support
