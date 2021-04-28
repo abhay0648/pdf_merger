@@ -45,10 +45,11 @@ class PdfMergerPlugin: FlutterPlugin, MethodCallHandler {
     val ut = PDFMergerUtility()
 
     for (item in paths!!){
+      print("Loop")
       ut.addSource(item)
     }
 
-    val file = File(outputDirPath)
+    val file = File(outputDirPath!!)
     val fileOutputStream = FileOutputStream(file)
     try {
       ut.destinationStream = fileOutputStream

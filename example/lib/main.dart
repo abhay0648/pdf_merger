@@ -44,7 +44,11 @@ class _MyAppState extends State<MyApp> {
 
         if(result != null) {
           files.addAll(result.files);
-          filesPath.add(result.files[0].path);
+
+
+          for(int i= 0 ; i < result.files.length ; i++) {
+            filesPath.add(result.files[i].path);
+          }
 
 
           if(files.length > 1){
