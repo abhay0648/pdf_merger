@@ -1,6 +1,18 @@
 # pdf_merger_example
 
-Demonstrates how to use the pdf_merger plugin.
+  String response;\
+    // Platform messages may fail, so we use a try/catch PlatformException.\
+    try {\
+      response = await PdfMerger.platformVersion(paths : filesPath, outputDirPath: outputDirPath);\
+      print("File" + response);\
+    } on PlatformException {\
+      print('Failed to get platform version.');\
+    }
+    
+Response -> "Success" when file save successfully otherwise "Error" message come.
+
+paths -> List<String> path.
+outputDirPath -> Add output directly path with file name. Example "0/Android/download/abc.pdf".
 
 ## Getting Started
 

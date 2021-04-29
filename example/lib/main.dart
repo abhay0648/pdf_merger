@@ -19,7 +19,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
   List<PlatformFile> files;
   List<String> filesPath;
 
@@ -30,85 +29,6 @@ class _MyAppState extends State<MyApp> {
     filesPath = [];
   }
 
-
-  multipleFilePicker() async{
-
-    bool isGranted =  await checkPermission();
-
-    if(isGranted){
-
-      print("FilePicker");
-      try{
-        FilePickerResult result = GetPlatform.isIOS ? await FilePicker.platform.pickFiles(allowMultiple: true) :
-        await FilePicker.platform.pickFiles(allowMultiple: true, type: FileType.custom , allowedExtensions: ['pdf']);
-
-        if(result != null) {
-          files.addAll(result.files);
-
-
-          for(int i= 0 ; i < result.files.length ; i++) {
-            filesPath.add(result.files[i].path);
-          }
-
-
-          if(files.length > 1){
-            String dirPath = await getFilePath("TestPDFMerger");
-            initPlatformState(files[0].path,files[1].path, dirPath, "Test123.pdf");
-          }
-
-        } else {
-          // User canceled the picker
-        }
-      }on Exception catch (e) {
-        print('never reached'+ e.toString());
-      }
-    }
-  }
-
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState(path1,path2, outputDirPath, outputFileName) async {
-    String response;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      response = await PdfMerger.platformVersion(paths : filesPath, outputDirPath: outputDirPath);
-      print("File" + response);
-    } on PlatformException {
-      print('Failed to get platform version.');
-    }
-  }
-
-
-
-  Future<bool> checkPermission() async{
-    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
-    print(permission);
-    if (permission == PermissionStatus.neverAskAgain) {
-      print("Go to Settings and provide media access");
-      return false;
-    }else if (permission == PermissionStatus.granted) {
-      return true;
-    }else{
-      return false;
-    }
-  }
-
-  Future<String> getFilePath(String fileStartName) async{
-    String path;
-    if(GetPlatform.isIOS) {
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      print(appDocDir.path);
-      path = appDocDir.path;
-    }else{
-      path = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
-    }
-
-    return path + "/" +  fileStartName + "ABC" + ".pdf";
-  }
-
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -117,13 +37,118 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: InkWell(
-              onTap: (){
+          child: Container(
+            margin: EdgeInsets.all(25),
+            child: TextButton(
+              style: ButtonStyle(overlayColor:
+                  MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                if (states.contains(MaterialState.focused)) return Colors.red;
+                if (states.contains(MaterialState.hovered)) return Colors.green;
+                if (states.contains(MaterialState.pressed)) return Colors.blue;
+                return null; // Defer to the widget's default.
+              })),
+              child: Text(
+                "Select Files",
+                style: TextStyle(fontSize: 20.0),
+              ),
+              onPressed: () {
                 multipleFilePicker();
               },
-              child : Text('Running on: $_platformVersion\n')),
+            ),
+          ),
         ),
       ),
     );
+  }
+
+  multipleFilePicker() async {
+    bool isGranted = await checkPermission();
+
+    if (isGranted) {
+      try {
+        FilePickerResult result = GetPlatform.isIOS
+            ? await FilePicker.platform.pickFiles(allowMultiple: true)
+            : await FilePicker.platform.pickFiles(
+                allowMultiple: true,
+                type: FileType.custom,
+                allowedExtensions: ['pdf']);
+
+        if (result != null) {
+          files.addAll(result.files);
+
+          // IS PDF check added for IOS for picking add file
+          bool isPDF = true;
+          for (int i = 0; i < result.files.length; i++) {
+            if (isPDF) {
+              isPDF = GetUtils.isPDF(files[i].path);
+              filesPath.add(result.files[i].path);
+            }
+          }
+
+          if (isPDF) {
+            if (files.length > 1) {
+              //Can pass output file name
+              String dirPath = await getFilePath("TestPDFMerger");
+              initPlatformState(dirPath);
+            }
+          } else {
+            filesPath = [];
+            print("Only PDF file selection allow");
+          }
+        } else {
+          // User canceled the picker
+        }
+      } on Exception catch (e) {
+        print('never reached' + e.toString());
+      }
+    }
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState(outputDirPath) async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      String response = await PdfMerger.platformVersion(
+          paths: filesPath, outputDirPath: outputDirPath);
+      print("File" + response);
+
+      if (response == "Success") {
+        // File save successfully
+      } else {
+        // File not save in call-back response == "Error"
+      }
+    } on PlatformException {
+      print('Failed to get platform version.');
+    }
+  }
+
+  Future<bool> checkPermission() async {
+    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    PermissionStatus permission = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+    print(permission);
+    if (permission == PermissionStatus.neverAskAgain) {
+      print("Go to Settings and provide media access");
+      return false;
+    } else if (permission == PermissionStatus.granted) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<String> getFilePath(String fileStartName) async {
+    String path;
+    if (GetPlatform.isIOS) {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      print(appDocDir.path);
+      path = appDocDir.path;
+    } else {
+      path = await ExtStorage.getExternalStoragePublicDirectory(
+          ExtStorage.DIRECTORY_DOWNLOADS);
+    }
+
+    return path + "/" + fileStartName + "ABC" + ".pdf";
   }
 }

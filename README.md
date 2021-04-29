@@ -1,6 +1,7 @@
 # pdf_merger
 
-A new Flutter plugin for merge List of PDF files.
+A new Flutter plugin for merge List of PDF files. It supports both android and IOS. Before call this package make sure you allow permission and file picker see example.
+Also check file_picker and permission handle to implement before calling the plugin. 
 
 
 ## Method
@@ -16,8 +17,8 @@ A new Flutter plugin for merge List of PDF files.
     
 Response -> "Success" when file save successfully otherwise "Error" message come.
 
-paths -> List<String> path\
-outputDirPath -> Add output directly path with file name. Example "0/Android/download/abc.pdf"
+paths -> List<String> path.
+outputDirPath -> Add output directly path with file name. Example "0/Android/download/abc.pdf".
     
 
 ## Usage
