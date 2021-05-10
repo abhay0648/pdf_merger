@@ -15,9 +15,9 @@ dependencies:
   permission_handler: ^4.2.0
   file_picker: ^2.1.7
   ext_storage: ^1.0.3
-  get: ^4.1.4
   path_provider: ^1.6.27
-
+  get: ^4.1.4
+  open_file: ^3.2.1
 
   pdf_merger:
     # When depending on this package from a real application you should use:

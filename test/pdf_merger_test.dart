@@ -11,13 +11,22 @@ void main() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       return '42';
     });
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return '42';
+    });
+
   });
 
   tearDown(() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await PdfMerger.platformVersion, '42');
+  test('mergeMultiplePDF', () async {
+    expect(await PdfMerger.mergeMultiplePDF, '42');
   });
+
+  test('createPDFFromMultipleImage', () async {
+    expect(await PdfMerger.createPDFFromMultipleImage, '42');
+  });
+
 }

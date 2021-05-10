@@ -1,6 +1,6 @@
 name: pdf_merger
 description: A new Flutter plugin for merge List of PDF files. It supports both android and IOS. Before call this package make sure you allow permission and file picker see example.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/abhay0648/pdf_merger
 
 environment:
@@ -10,6 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  get: ^4.1.4
+
 
 dev_dependencies:
   flutter_test:

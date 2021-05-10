@@ -4,10 +4,11 @@ import 'package:ext_storage/ext_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf_merger/pdf_merger.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,25 +22,49 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   List<PlatformFile> files;
   List<String> filesPath;
+  String singleFile;
+  // GetStream<T> subject = GetStream<T>();
 
   @override
   void initState() {
     super.initState();
-    files = [];
-    filesPath = [];
+    clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('PDF Merger'),
         ),
         body: Center(
           child: Container(
             margin: EdgeInsets.all(25),
-            child: TextButton(
+            child: Column(
+            children : [
+
+              TextButton(
+                style: ButtonStyle(overlayColor:
+                MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.focused)) return Colors.red;
+                      if (states.contains(MaterialState.hovered)) return Colors.green;
+                      if (states.contains(MaterialState.pressed)) return Colors.blue;
+                      return null; // Defer to the widget's default.
+                    })),
+                child: Text(
+                  "Chose File",
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                onPressed: () {
+                  multipleFilePicker();
+                },
+              ),
+
+              SizedBox(height: 10),
+
+              TextButton(
               style: ButtonStyle(overlayColor:
                   MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
@@ -49,17 +74,108 @@ class _MyAppState extends State<MyApp> {
                 return null; // Defer to the widget's default.
               })),
               child: Text(
-                "Select Files",
-                style: TextStyle(fontSize: 20.0),
+                "Merge Multiple PDF",
+                style: TextStyle(fontSize: 14.0),
               ),
               onPressed: () {
-                multipleFilePicker();
+                callMethod(1);
               },
             ),
+
+              SizedBox(height: 10),
+
+
+              TextButton(
+                style: ButtonStyle(overlayColor:
+                MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.focused)) return Colors.red;
+                      if (states.contains(MaterialState.hovered)) return Colors.green;
+                      if (states.contains(MaterialState.pressed)) return Colors.blue;
+                      return null; // Defer to the widget's default.
+                    })),
+                child: Text(
+                  "Create PDF From Multiple Image",
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                onPressed: () {
+                  callMethod(2);
+                },
+              ),
+
+
+              SizedBox(height: 10),
+
+              TextButton(
+                style: ButtonStyle(overlayColor:
+                MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.focused)) return Colors.red;
+                      if (states.contains(MaterialState.hovered)) return Colors.green;
+                      if (states.contains(MaterialState.pressed)) return Colors.blue;
+                      return null; // Defer to the widget's default.
+                    })),
+                child: Text(
+                  "Create Image From PDF",
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                onPressed: () {
+                  singleFilePicker(1);
+                },
+              ),
+
+
+              SizedBox(height: 10),
+
+              TextButton(
+                style: ButtonStyle(overlayColor:
+                MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.focused)) return Colors.red;
+                      if (states.contains(MaterialState.hovered)) return Colors.green;
+                      if (states.contains(MaterialState.pressed)) return Colors.blue;
+                      return null; // Defer to the widget's default.
+                    })),
+                child: Text(
+                  "Get File Size",
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                onPressed: () {
+                  singleFilePicker(2);
+                },
+              ),
+
+
+              SizedBox(height: 10),
+
+              TextButton(
+                style: ButtonStyle(overlayColor:
+                MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.focused)) return Colors.red;
+                      if (states.contains(MaterialState.hovered)) return Colors.green;
+                      if (states.contains(MaterialState.pressed)) return Colors.blue;
+                      return null; // Defer to the widget's default.
+                    })),
+                child: Text(
+                  "Clear",
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                onPressed: () {
+                  clear();
+                },
+              ),
+          ])
           ),
         ),
       ),
     );
+  }
+
+  clear(){
+    files = [];
+    filesPath = [];
+    singleFile = "";
   }
 
   multipleFilePicker() async {
@@ -67,34 +183,13 @@ class _MyAppState extends State<MyApp> {
 
     if (isGranted) {
       try {
-        FilePickerResult result = GetPlatform.isIOS
-            ? await FilePicker.platform.pickFiles(allowMultiple: true)
-            : await FilePicker.platform.pickFiles(
-                allowMultiple: true,
-                type: FileType.custom,
-                allowedExtensions: ['pdf']);
+        FilePickerResult result = await FilePicker.platform.pickFiles(allowMultiple: true);
 
         if (result != null) {
           files.addAll(result.files);
 
-          // IS PDF check added for IOS for picking add file
-          bool isPDF = true;
           for (int i = 0; i < result.files.length; i++) {
-            if (isPDF) {
-              isPDF = GetUtils.isPDF(files[i].path);
               filesPath.add(result.files[i].path);
-            }
-          }
-
-          if (isPDF) {
-            if (files.length > 1) {
-              //Can pass output file name
-              String dirPath = await getFilePath("TestPDFMerger");
-              initPlatformState(dirPath);
-            }
-          } else {
-            filesPath = [];
-            print("Only PDF file selection allow");
           }
         } else {
           // User canceled the picker
@@ -105,19 +200,136 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState(outputDirPath) async {
+
+  singleFilePicker(int type) async {
+    bool isGranted = GetPlatform.isIOS || GetPlatform.isAndroid ? await checkPermission() : true;
+
+    if (isGranted) {
+      try {
+        FilePickerResult result = await FilePicker.platform.pickFiles(allowMultiple: false);
+        if (result != null) {
+          singleFile = result.files[0].path;
+
+          switch(type){
+            case 1:
+              callMethod(3);
+              break;
+
+            case 2:
+              callMethod(4);
+              break;
+
+          }
+        } else {
+          // User canceled the picker
+        }
+      } on Exception catch (e) {
+        print('never reached' + e.toString());
+      }
+    }
+  }
+
+
+  callMethod(int type) async{
+    switch(type){
+      case 1:
+        String dirPath = await getFilePath("TestPDFMerger");
+        mergeMultiplePDF(dirPath);
+        break;
+
+      case 2:
+        String dirPath = await getFilePath("TestPDFMerger");
+        createPDFWithMultipleImage(dirPath);
+        break;
+
+      case 3:
+        String dirPath = await getFilePathImage("TestPDFMerger");
+        createImageFromPDF(dirPath);
+        break;
+
+      case 4:
+        sizeForLocalFilePath();
+        break;
+    }
+  }
+
+  Future<void> mergeMultiplePDF(outputDirPath) async {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      String response = await PdfMerger.platformVersion(
-          paths: filesPath, outputDirPath: outputDirPath);
-      print("File" + response);
+      // Get response either success or error
+      MergeMultiplePDFResponse response  = await PdfMerger.mergeMultiplePDF(paths: filesPath, outputDirPath: outputDirPath);
 
-      if (response == "Success") {
-        // File save successfully
-      } else {
-        // File not save in call-back response == "Error"
+      Get.snackbar("Info",response.message);
+
+      if(response.status == "success") {
+        OpenFile.open(response.response);
       }
+
+      print(response.status);
+
+    } on PlatformException {
+      print('Failed to get platform version.');
+    }
+  }
+
+
+  Future<void> createPDFWithMultipleImage(outputDirPath) async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+
+      // Get response either success or error
+      CreatePDFFromMultipleImageResponse response  = await PdfMerger.createPDFFromMultipleImage(
+          paths: filesPath, outputDirPath: outputDirPath);
+
+      Get.snackbar("Info",response.message);
+
+      if(response.status == "success") {
+        OpenFile.open(response.response);
+      }
+
+      print(response.status);
+
+    } on PlatformException {
+      print('Failed to get platform version.');
+    }
+  }
+
+
+  Future<void> createImageFromPDF(outputDirPath) async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      // Get response either success or error
+      CreateImageFromPDFResponse response  = await PdfMerger.createImageFromPDF(path: singleFile, outputDirPath: outputDirPath,
+          createOneImage : true);
+
+      Get.snackbar("Info",response.status);
+
+      if(response.status == "success") {
+        // print(response.response[0]);
+        OpenFile.open(response.response[0]);
+      }
+
+      print(response.message);
+
+    } on PlatformException {
+      print('Failed to get platform version.');
+    }
+  }
+
+
+  Future<void> sizeForLocalFilePath() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      // Get response either success or error
+      SizeForLocalFilePathResponse response  = await PdfMerger.sizeForLocalFilePath(path: singleFile);
+
+
+      if(response.status == "success") {
+        Get.snackbar("Info", response.response);
+      }
+
+      print(response.status);
+
     } on PlatformException {
       print('Failed to get platform version.');
     }
@@ -142,13 +354,25 @@ class _MyAppState extends State<MyApp> {
     String path;
     if (GetPlatform.isIOS) {
       Directory appDocDir = await getApplicationDocumentsDirectory();
-      print(appDocDir.path);
       path = appDocDir.path;
-    } else {
+    } else if (GetPlatform.isAndroid) {
       path = await ExtStorage.getExternalStoragePublicDirectory(
           ExtStorage.DIRECTORY_DOWNLOADS);
     }
 
-    return path + "/" + fileStartName + "ABC" + ".pdf";
+    return path + "/" + fileStartName + "ABCEFG5" + ".pdf";
+  }
+
+  Future<String> getFilePathImage(String fileStartName) async {
+    String path;
+    if (GetPlatform.isIOS) {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      path = appDocDir.path;
+    } else if (GetPlatform.isAndroid) {
+      path = await ExtStorage.getExternalStoragePublicDirectory(
+          ExtStorage.DIRECTORY_DOWNLOADS);
+    }
+
+    return path + "/" + fileStartName + "ABCEFG5" + ".png";
   }
 }
