@@ -4,6 +4,7 @@
 * Create PDF From Multiple Image method added with width, height & compress parameter.
 * Create Image From PDF method added with width, height & single image or multiple image parameter.
 * Get File Size method added to get any file size.
+* Migrate to null safety.
 
 
 ## 0.0.3

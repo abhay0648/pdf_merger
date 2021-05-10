@@ -12,7 +12,7 @@ class PdfMerger {
   static final createImageFromPDFResponse = CreateImageFromPDFResponse().obs;
   static final sizeForLocalFilePathResponse = SizeForLocalFilePathResponse().obs;
 
-  static Future<MergeMultiplePDFResponse> mergeMultiplePDF({@required List<String> paths, @required  String outputDirPath}) async {
+  static Future<MergeMultiplePDFResponse> mergeMultiplePDF({required List<String> paths, required  String outputDirPath}) async {
     final Map<String, dynamic> params = <String, dynamic>{
       'paths': paths,
       'outputDirPath': outputDirPath
@@ -42,7 +42,7 @@ class PdfMerger {
             mergeMultiplePDFResponse.value.message = Status.errorMessagePDF;
 
         }else{
-          final String response = await _channel.invokeMethod('mergeMultiplePDF', params);
+          final String? response = await _channel.invokeMethod('mergeMultiplePDF', params);
 
           if(response != "error"){
 
@@ -73,8 +73,8 @@ class PdfMerger {
     return mergeMultiplePDFResponse.value;
   }
 
-  static Future<CreatePDFFromMultipleImageResponse> createPDFFromMultipleImage({@required List<String> paths, @required String outputDirPath,
-    int maxWidth, int maxHeight, bool needImageCompressor}) async {
+  static Future<CreatePDFFromMultipleImageResponse> createPDFFromMultipleImage({required List<String> paths, required String outputDirPath,
+    int? maxWidth, int? maxHeight, bool? needImageCompressor}) async {
     final Map<String, dynamic> params = <String, dynamic>{
       'paths': paths,
       'outputDirPath': outputDirPath,
@@ -106,7 +106,7 @@ class PdfMerger {
             createPDFFromMultipleImageResponse.value.message = Status.errorMessageImage;
 
         }else{
-          final String response = await _channel.invokeMethod('createPDFFromMultipleImage', params);
+          final String? response = await _channel.invokeMethod('createPDFFromMultipleImage', params);
 
           if(response != "error"){
 
@@ -138,8 +138,8 @@ class PdfMerger {
   }
 
 
-  static Future<CreateImageFromPDFResponse> createImageFromPDF({@required String path, @required  String outputDirPath,
-    int maxWidth, int maxHeight, createOneImage}) async {
+  static Future<CreateImageFromPDFResponse> createImageFromPDF({required String path, required  String outputDirPath,
+    int? maxWidth, int? maxHeight, createOneImage}) async {
     final Map<String, dynamic> params = <String, dynamic>{
       'path': path,
       'outputDirPath': outputDirPath,
@@ -171,7 +171,7 @@ class PdfMerger {
 
             createImageFromPDFResponse.value.response = [];
             for(int i =0; i< response.length; i++){
-              createImageFromPDFResponse.value.response.add(response[i]);
+              createImageFromPDFResponse.value.response!.add(response[i]);
             }
 
               createImageFromPDFResponse.value.status =  Status.success;
@@ -202,7 +202,7 @@ class PdfMerger {
     return createImageFromPDFResponse.value;
   }
 
-  static Future<SizeForLocalFilePathResponse> sizeForLocalFilePath({@required String path}) async {
+  static Future<SizeForLocalFilePathResponse> sizeForLocalFilePath({required String path}) async {
     final Map<String, dynamic> params = <String, dynamic>{
       'path': path
     };
@@ -216,7 +216,7 @@ class PdfMerger {
     }else{
       try {
 
-          final String response = await _channel.invokeMethod('sizeForLocalFilePath', params);
+          final String? response = await _channel.invokeMethod('sizeForLocalFilePath', params);
 
           if(response != "error"){
 

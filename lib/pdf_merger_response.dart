@@ -1,25 +1,25 @@
 
 class MergeMultiplePDFResponse {
-  String status,response, message;
+  String? status,response, message;
 
   MergeMultiplePDFResponse({this.status = Status.empty, this.response, this.message});
 }
 
 class CreatePDFFromMultipleImageResponse {
-  String status,response, message;
+  String? status,response, message;
 
   CreatePDFFromMultipleImageResponse({this.status = Status.empty, this.response, this.message});
 }
 
 class CreateImageFromPDFResponse {
-  String status, message;
-  List<String> response;
+  String? status, message;
+  List<String?>? response;
 
   CreateImageFromPDFResponse({this.status = Status.empty, this.response, this.message});
 }
 
 class SizeForLocalFilePathResponse {
-  String status, message,response;
+  String? status, message,response;
 
   SizeForLocalFilePathResponse({this.status = Status.empty, this.response, this.message});
 }
