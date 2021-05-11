@@ -1,1 +1,3 @@
 rootProject.name = 'pdf_merger'
+include ':library'
+include ':sample'

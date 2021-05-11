@@ -11,6 +11,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.exifinterface.media.ExifInterface
+import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.util.PDFBoxResourceLoader
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -78,14 +79,14 @@ class PdfMergerPlugin: FlutterPlugin, MethodCallHandler {
       val ut = PDFMergerUtility()
 
       for (item in paths!!){
-        val file = File(item)
-        ut.addSource(file)      }
+        ut.addSource(item)
+      }
 
       val file = File(outputDirPath!!)
       val fileOutputStream = FileOutputStream(file)
       try {
         ut.destinationStream = fileOutputStream
-        ut.mergeDocuments(false)
+        ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly())
         status = "success"
       } catch (e: Exception){
         status = "error"
