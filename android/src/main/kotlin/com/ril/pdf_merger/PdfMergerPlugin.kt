@@ -11,6 +11,9 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.exifinterface.media.ExifInterface
+import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
+import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.util.PDFBoxResourceLoader
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -18,8 +21,6 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.apache.pdfbox.io.MemoryUsageSetting
-import org.apache.pdfbox.multipdf.PDFMergerUtility
 import org.vudroid.core.DecodeServiceBase
 import org.vudroid.core.codec.CodecPage
 import org.vudroid.pdfdroid.codec.PdfContext
@@ -71,18 +72,21 @@ class PdfMergerPlugin: FlutterPlugin, MethodCallHandler {
   private fun mergeMultiplePDF(paths: List<String>?, outputDirPath: String?){
     var status = ""
 
+    PDFBoxResourceLoader.init(context.getApplicationContext())
+
     val singlePDFFromMultiplePDF =  GlobalScope.launch(Dispatchers.IO) {
+
       val ut = PDFMergerUtility()
 
       for (item in paths!!){
-        ut.addSource(item)
-      }
+        val file = File(item)
+        ut.addSource(file)      }
 
       val file = File(outputDirPath!!)
       val fileOutputStream = FileOutputStream(file)
       try {
         ut.destinationStream = fileOutputStream
-        ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly())
+        ut.mergeDocuments(false)
         status = "success"
       } catch (e: Exception){
         status = "error"
