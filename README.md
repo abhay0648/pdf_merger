@@ -31,3 +31,15 @@ https://pub.dev/packages/permission_handler
 Android & IOS
 
 
+# For Android
+
+Add  these lines in your  progaurd
+
+# required to prevent errors from the spongycastle libraries
+-keep class org.spongycastle.** { *; }
+-dontwarn org.spongycastle.**
+
+# For IOS
+
+All set 
+

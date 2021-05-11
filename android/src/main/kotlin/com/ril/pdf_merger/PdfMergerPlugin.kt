@@ -12,7 +12,6 @@ import android.util.Log
 import androidx.annotation.NonNull
 import androidx.exifinterface.media.ExifInterface
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
-import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.util.PDFBoxResourceLoader
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
