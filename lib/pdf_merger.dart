@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pdf_merger/pdf_merger_response.dart';
@@ -10,7 +9,7 @@ class PdfMerger {
   static final mergeMultiplePDFResponse = MergeMultiplePDFResponse().obs;
   static final createPDFFromMultipleImageResponse = CreatePDFFromMultipleImageResponse().obs;
   static final createImageFromPDFResponse = CreateImageFromPDFResponse().obs;
-  static final sizeForLocalFilePathResponse = SizeForLocalFilePathResponse().obs;
+  static final sizeFormFilePathResponse = SizeFormPathResponse().obs;
 
   static Future<MergeMultiplePDFResponse> mergeMultiplePDF({required List<String> paths, required  String outputDirPath}) async {
     final Map<String, dynamic> params = <String, dynamic>{
@@ -20,7 +19,7 @@ class PdfMerger {
 
 
 
-    if(paths == null || paths.length == 0){
+    if(paths.length == 0){
 
         mergeMultiplePDFResponse.value.status =  Status.error;
         mergeMultiplePDFResponse.value.message = Status.errorMessage;
@@ -58,14 +57,13 @@ class PdfMerger {
           }
         }
       } on Exception catch (exception) {
+          mergeMultiplePDFResponse.value.status =  Status.error;
+          mergeMultiplePDFResponse.value.message = exception.toString();
+
+      } catch (e) {
 
           mergeMultiplePDFResponse.value.status =  Status.error;
-          mergeMultiplePDFResponse.value.message = Status.errorMessage;
-
-      } catch (error) {
-
-          mergeMultiplePDFResponse.value.status =  Status.error;
-          mergeMultiplePDFResponse.value.message = Status.errorMessage;
+          mergeMultiplePDFResponse.value.message = e.toString();
 
       }
     }
@@ -84,7 +82,7 @@ class PdfMerger {
     };
 
 
-    if(paths == null || paths.length == 0){
+    if(paths.length == 0){
 
         createPDFFromMultipleImageResponse.value.status =  Status.error;
         createPDFFromMultipleImageResponse.value.message = Status.errorMessage;
@@ -124,12 +122,12 @@ class PdfMerger {
       } on Exception catch (exception) {
 
           createPDFFromMultipleImageResponse.value.status =  Status.error;
-          createPDFFromMultipleImageResponse.value.message = Status.errorMessage;
+          createPDFFromMultipleImageResponse.value.message = exception.toString();
 
-      } catch (error) {
+      } catch (e) {
 
           createPDFFromMultipleImageResponse.value.status =  Status.error;
-          createPDFFromMultipleImageResponse.value.message = Status.errorMessage;
+          createPDFFromMultipleImageResponse.value.message = e.toString();
 
       }
     }
@@ -149,7 +147,7 @@ class PdfMerger {
     };
 
 
-    if(path == null || path == ""){
+    if(path == ""){
 
         createImageFromPDFResponse.value.status =  Status.error;
         createImageFromPDFResponse.value.message = Status.errorMessage;
@@ -184,17 +182,12 @@ class PdfMerger {
           }
         }
       } on Exception catch (exception) {
-
-        print(exception);
-
           createImageFromPDFResponse.value.status =  Status.error;
-          createImageFromPDFResponse.value.message = Status.errorMessage;
+          createImageFromPDFResponse.value.message = exception.toString();
 
-      } catch (error) {
-        print(error);
-
+      } catch (e) {
           createImageFromPDFResponse.value.status =  Status.error;
-          createImageFromPDFResponse.value.message = Status.errorMessage;
+          createImageFromPDFResponse.value.message = e.toString();
 
       }
     }
@@ -202,16 +195,16 @@ class PdfMerger {
     return createImageFromPDFResponse.value;
   }
 
-  static Future<SizeForLocalFilePathResponse> sizeForLocalFilePath({required String path}) async {
+  static Future<SizeFormPathResponse> sizeFormPath({required String path}) async {
     final Map<String, dynamic> params = <String, dynamic>{
       'path': path
     };
 
 
-    if(path == null || path == ""){
+    if(path == ""){
 
-        sizeForLocalFilePathResponse.value.status =  Status.error;
-        sizeForLocalFilePathResponse.value.message = Status.errorMessage;
+      sizeFormFilePathResponse.value.status =  Status.error;
+      sizeFormFilePathResponse.value.message = Status.errorMessage;
 
     }else{
       try {
@@ -220,30 +213,50 @@ class PdfMerger {
 
           if(response != "error"){
 
-              sizeForLocalFilePathResponse.value.status =  Status.success;
-              sizeForLocalFilePathResponse.value.message = Status.successMessage;
-              sizeForLocalFilePathResponse.value.response = response;
+            sizeFormFilePathResponse.value.status =  Status.success;
+            sizeFormFilePathResponse.value.message = Status.successMessage;
+            sizeFormFilePathResponse.value.response = response;
 
           }else{
 
-              sizeForLocalFilePathResponse.value.status =  Status.error;
-              sizeForLocalFilePathResponse.value.message = Status.errorMessage;
+            sizeFormFilePathResponse.value.status =  Status.error;
+            sizeFormFilePathResponse.value.message = Status.errorMessage;
 
           }
 
       } on Exception catch (exception) {
 
-          sizeForLocalFilePathResponse.value.status =  Status.error;
-          sizeForLocalFilePathResponse.value.message = Status.errorMessage;
+        sizeFormFilePathResponse.value.status =  Status.error;
+        sizeFormFilePathResponse.value.message = exception.toString();
 
-      } catch (error) {
+      } catch (e) {
 
-          sizeForLocalFilePathResponse.value.status =  Status.error;
-          sizeForLocalFilePathResponse.value.message = Status.errorMessage;
+        sizeFormFilePathResponse.value.status =  Status.error;
+        sizeFormFilePathResponse.value.message = e.toString();
 
       }
     }
 
-    return sizeForLocalFilePathResponse.value;
+    return sizeFormFilePathResponse.value;
   }
+
+  static Future<BuildInfoResponse> buildInfo() async {
+    String  buildDate = await _channel.invokeMethod('buildDate');
+    String  buildDateWithTime = await _channel.invokeMethod('buildDateWithTime');
+    String  versionName = await _channel.invokeMethod('versionName');
+    String  versionCode = await _channel.invokeMethod('versionCode');
+    String  packageName = await _channel.invokeMethod('packageName');
+    String  appName = await _channel.invokeMethod('appName');
+
+
+    return BuildInfoResponse(
+        buildDate : buildDate == "null"  || buildDate == "error" ? "" : buildDate,
+        buildDateWithTime : buildDateWithTime == "null"  || buildDateWithTime == "error" ? "" : buildDateWithTime,
+        versionNumber : versionName == "null"  || versionName == "error" ? "" : versionName,
+        buildNumber : versionCode == "null"  || versionCode == "error" ? "" : versionCode,
+        packageName : packageName == "null"  || packageName == "error" ? "" : packageName,
+        appName : appName == "null"  || appName == "error" ? "" : appName
+    );
+  }
+
 }

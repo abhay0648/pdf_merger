@@ -33,7 +33,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.ril.pdf_merger_example"
+        applicationId "com.auc.pdf_merger_example"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

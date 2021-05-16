@@ -4,6 +4,7 @@ import MobileCoreServices
 import ImageIO
 import AVFoundation
 
+
 public class SwiftPdfMergerPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "pdf_merger", binaryMessenger: registrar.messenger())
@@ -60,6 +61,30 @@ public class SwiftPdfMergerPlugin: NSObject, FlutterPlugin {
           } else {
               result("error")
           }
+}else if call.method == "buildDate" {
+
+           let buildDateResponse = SwiftPdfMergerPlugin.buildDate()
+           result(buildDateResponse)
+}else if call.method == "buildDateWithTime" {
+    
+    let buildDateWithTimeResponse = SwiftPdfMergerPlugin.buildDateWithTime()
+    result(buildDateWithTimeResponse)
+}else if call.method == "versionName" {
+    
+    let versionNameResponse = SwiftPdfMergerPlugin.versionName()
+    result(versionNameResponse)
+}else if call.method == "versionCode" {
+    
+    let versionCodeResponse = SwiftPdfMergerPlugin.versionCode()
+    result(versionCodeResponse)
+}else if call.method == "packageName" {
+    
+    let packageNameResponse = SwiftPdfMergerPlugin.packageName()
+    result(packageNameResponse)
+}else if call.method == "appName" {
+    
+    let appNameResponse = SwiftPdfMergerPlugin.appName()
+    result(appNameResponse)
 } else{
             result("Not Implemented")
       }
@@ -295,6 +320,74 @@ public class SwiftPdfMergerPlugin: NSObject, FlutterPlugin {
         return "error"
     }
     
+    class func  buildDate() -> String? {
+        
+        if let executableURL = Bundle.main.executableURL,
+            let creation = (try? executableURL.resourceValues(forKeys: [.creationDateKey]))?.creationDate {
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            return dateFormatter.string(from: creation)
+        }
+        
+        return "error"
+    }
+
+    
+    class func  buildDateWithTime() -> String? {
+        
+        if let executableURL = Bundle.main.executableURL,
+            let creation = (try? executableURL.resourceValues(forKeys: [.creationDateKey]))?.creationDate {
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+            return dateFormatter.string(from: creation)
+        }
+        
+        return "error"
+    }
+
+    
+    class func  versionName() -> String? {
+        
+        if let appVersion =  Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            
+            return appVersion
+        }
+        
+        return "error"
+    }
+
+    
+    class func  versionCode() -> String? {
+        
+        if let appVersionCode =  Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
+            
+            return appVersionCode
+        }
+        
+        return "error"
+    }
+    
+    class func  packageName() -> String? {
+        
+        if let bundleID = Bundle.main.bundleIdentifier {
+        
+            return bundleID
+        }
+        
+        return "error"
+    }
+    
+    class func  appName() -> String? {
+        
+        if let appName = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String {
+        
+            return appName
+        }
+        
+        return "error"
+    }
 
 
     public static func mergeVertically(images: [UIImage]) -> UIImage? {

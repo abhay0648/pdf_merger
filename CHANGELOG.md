@@ -1,3 +1,8 @@
+## 0.0.4-beta1
+
+* Added build info method to get package info buildDate, buildDateWithTime, versionName, versionCode, packageName, appName
+
+
 ## 0.0.4
 
 * Add method added in Async Task and coroutines

@@ -12,7 +12,23 @@ void main() {
       return '42';
     });
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
+      return '43';
+    });
+
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return '44';
+    });
+
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return '45';
+    });
+
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return '46';
+    });
+
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return '47';
     });
 
   });
@@ -22,11 +38,27 @@ void main() {
   });
 
   test('mergeMultiplePDF', () async {
-    expect(await PdfMerger.mergeMultiplePDF, '42');
+    expect(PdfMerger.mergeMultiplePDF, '42');
   });
 
   test('createPDFFromMultipleImage', () async {
-    expect(await PdfMerger.createPDFFromMultipleImage, '42');
+    expect(PdfMerger.createPDFFromMultipleImage, '43');
+  });
+
+  test('createImageFromPDF', () async {
+    expect(PdfMerger.createImageFromPDF, '44');
+  });
+
+  test('sizeFormPath', () async {
+    expect(PdfMerger.sizeFormPath, '45');
+  });
+
+  test('createPDFFromMultipleImage', () async {
+    expect(PdfMerger.createPDFFromMultipleImage, '46');
+  });
+
+  test('buildInfo', () async {
+    expect(PdfMerger.buildInfo, '47');
   });
 
 }

@@ -165,6 +165,27 @@ class _MyAppState extends State<MyApp> {
                   clear();
                 },
               ),
+
+
+              SizedBox(height: 10),
+
+              TextButton(
+                style: ButtonStyle(overlayColor:
+                MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.focused)) return Colors.red;
+                      if (states.contains(MaterialState.hovered)) return Colors.green;
+                      if (states.contains(MaterialState.pressed)) return Colors.blue;
+                      return null; // Defer to the widget's default.
+                    })),
+                child: Text(
+                  "Build Info",
+                  style: TextStyle(fontSize: 14.0),
+                ),
+                onPressed: () {
+                  buildInfo();
+                },
+              ),
           ])
           ),
         ),
@@ -321,7 +342,7 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       // Get response either success or error
-      SizeForLocalFilePathResponse response  = await PdfMerger.sizeForLocalFilePath(path: singleFile);
+      SizeFormPathResponse response  = await PdfMerger.sizeFormPath(path: singleFile);
 
 
       if(response.status == "success") {
@@ -334,6 +355,24 @@ class _MyAppState extends State<MyApp> {
       print('Failed to get platform version.');
     }
   }
+
+  Future<void> buildInfo() async {
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      // Get response either success or error
+      BuildInfoResponse response =  await PdfMerger.buildInfo();
+
+        Get.snackbar("Info", "App Name : " + response.appName + "\n" +
+            "Build Number : " + response.buildDate + "\n" +
+            "Build Number with Time : " + response.buildDateWithTime + "\n" +
+            "Package Name : " + response.packageName + "\n" +
+            "Version Number : " + response.versionNumber + "\n" +
+            "Build Number : " + response.buildNumber.toString() );
+    } on PlatformException {
+      print('Failed to get platform version.');
+    }
+  }
+
 
   Future<bool> checkPermission() async {
     await PermissionHandler().requestPermissions([PermissionGroup.storage]);

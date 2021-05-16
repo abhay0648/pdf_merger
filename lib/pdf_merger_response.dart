@@ -18,12 +18,18 @@ class CreateImageFromPDFResponse {
   CreateImageFromPDFResponse({this.status = Status.empty, this.response, this.message});
 }
 
-class SizeForLocalFilePathResponse {
+class SizeFormPathResponse {
   String? status, message,response;
 
-  SizeForLocalFilePathResponse({this.status = Status.empty, this.response, this.message});
+  SizeFormPathResponse({this.status = Status.empty, this.response, this.message});
 }
 
+class BuildInfoResponse {
+  String? buildDate,buildDateWithTime,versionNumber,packageName,appName,buildNumber;
+
+  BuildInfoResponse({this.buildDate, this.buildDateWithTime, this.versionNumber
+    , this.packageName, this.appName, this.buildNumber});
+}
 
 class Status{
   static const empty = "empty";
