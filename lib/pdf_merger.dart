@@ -7,233 +7,196 @@ export 'package:pdf_merger/pdf_merger_response.dart';
 class PdfMerger {
   static const MethodChannel _channel = const MethodChannel('pdf_merger');
   static final mergeMultiplePDFResponse = MergeMultiplePDFResponse().obs;
-  static final createPDFFromMultipleImageResponse = CreatePDFFromMultipleImageResponse().obs;
+  static final createPDFFromMultipleImageResponse =
+      CreatePDFFromMultipleImageResponse().obs;
   static final createImageFromPDFResponse = CreateImageFromPDFResponse().obs;
   static final sizeFormFilePathResponse = SizeFormPathResponse().obs;
 
-  static Future<MergeMultiplePDFResponse> mergeMultiplePDF({required List<String> paths, required  String outputDirPath}) async {
+  static Future<MergeMultiplePDFResponse> mergeMultiplePDF(
+      {required List<String> paths, required String outputDirPath}) async {
     final Map<String, dynamic> params = <String, dynamic>{
       'paths': paths,
       'outputDirPath': outputDirPath
     };
 
-
-
-    if(paths.length == 0){
-
-        mergeMultiplePDFResponse.value.status =  Status.error;
-        mergeMultiplePDFResponse.value.message = Status.errorMessage;
-
-    }else{
+    if (paths.length == 0) {
+      mergeMultiplePDFResponse.value.status = Status.error;
+      mergeMultiplePDFResponse.value.message = Status.errorMessage;
+    } else {
       try {
-
         bool isPDF = true;
 
-        for(int i=0; i< paths.length ; i++){
-          if(!GetUtils.isPDF(paths[i])){
+        for (int i = 0; i < paths.length; i++) {
+          if (!GetUtils.isPDF(paths[i])) {
             isPDF = false;
           }
         }
 
-        if(!isPDF){
+        if (!isPDF) {
+          mergeMultiplePDFResponse.value.status = Status.error;
+          mergeMultiplePDFResponse.value.message = Status.errorMessagePDF;
+        } else {
+          final String? response =
+              await _channel.invokeMethod('mergeMultiplePDF', params);
 
-            mergeMultiplePDFResponse.value.status =  Status.error;
-            mergeMultiplePDFResponse.value.message = Status.errorMessagePDF;
-
-        }else{
-          final String? response = await _channel.invokeMethod('mergeMultiplePDF', params);
-
-          if(response != "error"){
-
-              mergeMultiplePDFResponse.value.status =  Status.success;
-              mergeMultiplePDFResponse.value.message = Status.successMessage;
-              mergeMultiplePDFResponse.value.response = response;
-
-          }else{
-
-              mergeMultiplePDFResponse.value.status =  Status.error;
-              mergeMultiplePDFResponse.value.message = Status.errorMessage;
-
+          if (response != "error") {
+            mergeMultiplePDFResponse.value.status = Status.success;
+            mergeMultiplePDFResponse.value.message = Status.successMessage;
+            mergeMultiplePDFResponse.value.response = response;
+          } else {
+            mergeMultiplePDFResponse.value.status = Status.error;
+            mergeMultiplePDFResponse.value.message = Status.errorMessage;
           }
         }
       } on Exception catch (exception) {
-          mergeMultiplePDFResponse.value.status =  Status.error;
-          mergeMultiplePDFResponse.value.message = exception.toString();
-
+        mergeMultiplePDFResponse.value.status = Status.error;
+        mergeMultiplePDFResponse.value.message = exception.toString();
       } catch (e) {
-
-          mergeMultiplePDFResponse.value.status =  Status.error;
-          mergeMultiplePDFResponse.value.message = e.toString();
-
+        mergeMultiplePDFResponse.value.status = Status.error;
+        mergeMultiplePDFResponse.value.message = e.toString();
       }
     }
 
     return mergeMultiplePDFResponse.value;
   }
 
-  static Future<CreatePDFFromMultipleImageResponse> createPDFFromMultipleImage({required List<String> paths, required String outputDirPath,
-    int? maxWidth, int? maxHeight, bool? needImageCompressor}) async {
+  static Future<CreatePDFFromMultipleImageResponse> createPDFFromMultipleImage(
+      {required List<String> paths,
+      required String outputDirPath,
+      int? maxWidth,
+      int? maxHeight,
+      bool? needImageCompressor}) async {
     final Map<String, dynamic> params = <String, dynamic>{
       'paths': paths,
       'outputDirPath': outputDirPath,
-      'needImageCompressor' : needImageCompressor ?? true,
-      'maxWidth' : maxWidth ?? 360,
-      'maxHeight' : maxHeight ?? 360
+      'needImageCompressor': needImageCompressor ?? true,
+      'maxWidth': maxWidth ?? 360,
+      'maxHeight': maxHeight ?? 360
     };
 
-
-    if(paths.length == 0){
-
-        createPDFFromMultipleImageResponse.value.status =  Status.error;
-        createPDFFromMultipleImageResponse.value.message = Status.errorMessage;
-
-    }else{
+    if (paths.length == 0) {
+      createPDFFromMultipleImageResponse.value.status = Status.error;
+      createPDFFromMultipleImageResponse.value.message = Status.errorMessage;
+    } else {
       try {
-
         bool isImage = true;
 
-        for(int i=0; i< paths.length ; i++){
-          if(!GetUtils.isImage(paths[i])){
+        for (int i = 0; i < paths.length; i++) {
+          if (!GetUtils.isImage(paths[i])) {
             isImage = false;
           }
         }
 
-        if(!isImage){
+        if (!isImage) {
+          createPDFFromMultipleImageResponse.value.status = Status.error;
+          createPDFFromMultipleImageResponse.value.message =
+              Status.errorMessageImage;
+        } else {
+          final String? response =
+              await _channel.invokeMethod('createPDFFromMultipleImage', params);
 
-            createPDFFromMultipleImageResponse.value.status =  Status.error;
-            createPDFFromMultipleImageResponse.value.message = Status.errorMessageImage;
-
-        }else{
-          final String? response = await _channel.invokeMethod('createPDFFromMultipleImage', params);
-
-          if(response != "error"){
-
-              createPDFFromMultipleImageResponse.value.status =  Status.success;
-              createPDFFromMultipleImageResponse.value.message = Status.successMessage;
-              createPDFFromMultipleImageResponse.value.response = response;
-
-          }else{
-
-              createPDFFromMultipleImageResponse.value.status =  Status.error;
-              createPDFFromMultipleImageResponse.value.message = Status.errorMessage;
-
+          if (response != "error") {
+            createPDFFromMultipleImageResponse.value.status = Status.success;
+            createPDFFromMultipleImageResponse.value.message =
+                Status.successMessage;
+            createPDFFromMultipleImageResponse.value.response = response;
+          } else {
+            createPDFFromMultipleImageResponse.value.status = Status.error;
+            createPDFFromMultipleImageResponse.value.message =
+                Status.errorMessage;
           }
         }
       } on Exception catch (exception) {
-
-          createPDFFromMultipleImageResponse.value.status =  Status.error;
-          createPDFFromMultipleImageResponse.value.message = exception.toString();
-
+        createPDFFromMultipleImageResponse.value.status = Status.error;
+        createPDFFromMultipleImageResponse.value.message = exception.toString();
       } catch (e) {
-
-          createPDFFromMultipleImageResponse.value.status =  Status.error;
-          createPDFFromMultipleImageResponse.value.message = e.toString();
-
+        createPDFFromMultipleImageResponse.value.status = Status.error;
+        createPDFFromMultipleImageResponse.value.message = e.toString();
       }
     }
 
     return createPDFFromMultipleImageResponse.value;
   }
 
-
-  static Future<CreateImageFromPDFResponse> createImageFromPDF({required String path, required  String outputDirPath,
-    int? maxWidth, int? maxHeight, createOneImage}) async {
+  static Future<CreateImageFromPDFResponse> createImageFromPDF(
+      {required String path,
+      required String outputDirPath,
+      int? maxWidth,
+      int? maxHeight,
+      createOneImage}) async {
     final Map<String, dynamic> params = <String, dynamic>{
       'path': path,
       'outputDirPath': outputDirPath,
-      'maxWidth' : maxWidth ?? 360,
-      'maxHeight' : maxHeight ?? 360,
-      'createOneImage' : createOneImage ?? true
+      'maxWidth': maxWidth ?? 360,
+      'maxHeight': maxHeight ?? 360,
+      'createOneImage': createOneImage ?? true
     };
 
-
-    if(path == ""){
-
-        createImageFromPDFResponse.value.status =  Status.error;
-        createImageFromPDFResponse.value.message = Status.errorMessage;
-
-    }else{
+    if (path == "") {
+      createImageFromPDFResponse.value.status = Status.error;
+      createImageFromPDFResponse.value.message = Status.errorMessage;
+    } else {
       try {
-
         bool isImage = GetUtils.isPDF(path);
 
-        if(!isImage){
+        if (!isImage) {
+          createImageFromPDFResponse.value.status = Status.error;
+          createImageFromPDFResponse.value.message = Status.errorMessageImage;
+        } else {
+          final response =
+              await _channel.invokeMethod('createImageFromPDF', params);
 
-            createImageFromPDFResponse.value.status =  Status.error;
-            createImageFromPDFResponse.value.message = Status.errorMessageImage;
-
-        }else{
-          final  response = await _channel.invokeMethod('createImageFromPDF', params);
-
-          if(response != null && response.length != 0){
-
+          if (response != null && response.length != 0) {
             createImageFromPDFResponse.value.response = [];
-            for(int i =0; i< response.length; i++){
+            for (int i = 0; i < response.length; i++) {
               createImageFromPDFResponse.value.response!.add(response[i]);
             }
 
-              createImageFromPDFResponse.value.status =  Status.success;
-              createImageFromPDFResponse.value.message = Status.successMessage;
-          }else{
-
-              createImageFromPDFResponse.value.status =  Status.error;
-              createImageFromPDFResponse.value.message = Status.errorMessage;
-
+            createImageFromPDFResponse.value.status = Status.success;
+            createImageFromPDFResponse.value.message = Status.successMessage;
+          } else {
+            createImageFromPDFResponse.value.status = Status.error;
+            createImageFromPDFResponse.value.message = Status.errorMessage;
           }
         }
       } on Exception catch (exception) {
-          createImageFromPDFResponse.value.status =  Status.error;
-          createImageFromPDFResponse.value.message = exception.toString();
-
+        createImageFromPDFResponse.value.status = Status.error;
+        createImageFromPDFResponse.value.message = exception.toString();
       } catch (e) {
-          createImageFromPDFResponse.value.status =  Status.error;
-          createImageFromPDFResponse.value.message = e.toString();
-
+        createImageFromPDFResponse.value.status = Status.error;
+        createImageFromPDFResponse.value.message = e.toString();
       }
     }
 
     return createImageFromPDFResponse.value;
   }
 
-  static Future<SizeFormPathResponse> sizeFormPath({required String path}) async {
-    final Map<String, dynamic> params = <String, dynamic>{
-      'path': path
-    };
+  static Future<SizeFormPathResponse> sizeFormPath(
+      {required String path}) async {
+    final Map<String, dynamic> params = <String, dynamic>{'path': path};
 
-
-    if(path == ""){
-
-      sizeFormFilePathResponse.value.status =  Status.error;
+    if (path == "") {
+      sizeFormFilePathResponse.value.status = Status.error;
       sizeFormFilePathResponse.value.message = Status.errorMessage;
-
-    }else{
+    } else {
       try {
+        final String? response =
+            await _channel.invokeMethod('sizeForLocalFilePath', params);
 
-          final String? response = await _channel.invokeMethod('sizeForLocalFilePath', params);
-
-          if(response != "error"){
-
-            sizeFormFilePathResponse.value.status =  Status.success;
-            sizeFormFilePathResponse.value.message = Status.successMessage;
-            sizeFormFilePathResponse.value.response = response;
-
-          }else{
-
-            sizeFormFilePathResponse.value.status =  Status.error;
-            sizeFormFilePathResponse.value.message = Status.errorMessage;
-
-          }
-
+        if (response != "error") {
+          sizeFormFilePathResponse.value.status = Status.success;
+          sizeFormFilePathResponse.value.message = Status.successMessage;
+          sizeFormFilePathResponse.value.response = response;
+        } else {
+          sizeFormFilePathResponse.value.status = Status.error;
+          sizeFormFilePathResponse.value.message = Status.errorMessage;
+        }
       } on Exception catch (exception) {
-
-        sizeFormFilePathResponse.value.status =  Status.error;
+        sizeFormFilePathResponse.value.status = Status.error;
         sizeFormFilePathResponse.value.message = exception.toString();
-
       } catch (e) {
-
-        sizeFormFilePathResponse.value.status =  Status.error;
+        sizeFormFilePathResponse.value.status = Status.error;
         sizeFormFilePathResponse.value.message = e.toString();
-
       }
     }
 
@@ -241,22 +204,25 @@ class PdfMerger {
   }
 
   static Future<BuildInfoResponse> buildInfo() async {
-    String  buildDate = await _channel.invokeMethod('buildDate');
-    String  buildDateWithTime = await _channel.invokeMethod('buildDateWithTime');
-    String  versionName = await _channel.invokeMethod('versionName');
-    String  versionCode = await _channel.invokeMethod('versionCode');
-    String  packageName = await _channel.invokeMethod('packageName');
-    String  appName = await _channel.invokeMethod('appName');
-
+    String buildDate = await _channel.invokeMethod('buildDate');
+    String buildDateWithTime = await _channel.invokeMethod('buildDateWithTime');
+    String versionName = await _channel.invokeMethod('versionName');
+    String versionCode = await _channel.invokeMethod('versionCode');
+    String packageName = await _channel.invokeMethod('packageName');
+    String appName = await _channel.invokeMethod('appName');
 
     return BuildInfoResponse(
-        buildDate : buildDate == "null"  || buildDate == "error" ? "" : buildDate,
-        buildDateWithTime : buildDateWithTime == "null"  || buildDateWithTime == "error" ? "" : buildDateWithTime,
-        versionNumber : versionName == "null"  || versionName == "error" ? "" : versionName,
-        buildNumber : versionCode == "null"  || versionCode == "error" ? "" : versionCode,
-        packageName : packageName == "null"  || packageName == "error" ? "" : packageName,
-        appName : appName == "null"  || appName == "error" ? "" : appName
-    );
+        buildDate: buildDate == "null" || buildDate == "error" ? "" : buildDate,
+        buildDateWithTime:
+            buildDateWithTime == "null" || buildDateWithTime == "error"
+                ? ""
+                : buildDateWithTime,
+        versionNumber:
+            versionName == "null" || versionName == "error" ? "" : versionName,
+        buildNumber:
+            versionCode == "null" || versionCode == "error" ? "" : versionCode,
+        packageName:
+            packageName == "null" || packageName == "error" ? "" : packageName,
+        appName: appName == "null" || appName == "error" ? "" : appName);
   }
-
 }

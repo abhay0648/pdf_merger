@@ -40,160 +40,161 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Center(
           child: Container(
-            margin: EdgeInsets.all(25),
-            child: Column(
-            children : [
-
-              TextButton(
-                style: ButtonStyle(overlayColor:
-                MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.focused)) return Colors.red;
-                      if (states.contains(MaterialState.hovered)) return Colors.green;
-                      if (states.contains(MaterialState.pressed)) return Colors.blue;
-                      return null; // Defer to the widget's default.
-                    })),
-                child: Text(
-                  "Chose File",
-                  style: TextStyle(fontSize: 14.0),
+              margin: EdgeInsets.all(25),
+              child: Column(children: [
+                TextButton(
+                  style: ButtonStyle(overlayColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused))
+                      return Colors.red;
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.green;
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  })),
+                  child: Text(
+                    "Chose File",
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  onPressed: () {
+                    multipleFilePicker();
+                  },
                 ),
-                onPressed: () {
-                  multipleFilePicker();
-                },
-              ),
-
-              SizedBox(height: 10),
-
-              TextButton(
-              style: ButtonStyle(overlayColor:
-                  MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                if (states.contains(MaterialState.focused)) return Colors.red;
-                if (states.contains(MaterialState.hovered)) return Colors.green;
-                if (states.contains(MaterialState.pressed)) return Colors.blue;
-                return null; // Defer to the widget's default.
-              })),
-              child: Text(
-                "Merge Multiple PDF",
-                style: TextStyle(fontSize: 14.0),
-              ),
-              onPressed: () {
-                callMethod(1);
-              },
-            ),
-
-              SizedBox(height: 10),
-
-
-              TextButton(
-                style: ButtonStyle(overlayColor:
-                MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.focused)) return Colors.red;
-                      if (states.contains(MaterialState.hovered)) return Colors.green;
-                      if (states.contains(MaterialState.pressed)) return Colors.blue;
-                      return null; // Defer to the widget's default.
-                    })),
-                child: Text(
-                  "Create PDF From Multiple Image",
-                  style: TextStyle(fontSize: 14.0),
+                SizedBox(height: 10),
+                TextButton(
+                  style: ButtonStyle(overlayColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused))
+                      return Colors.red;
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.green;
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  })),
+                  child: Text(
+                    "Merge Multiple PDF",
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  onPressed: () {
+                    callMethod(1);
+                  },
                 ),
-                onPressed: () {
-                  callMethod(2);
-                },
-              ),
-
-
-              SizedBox(height: 10),
-
-              TextButton(
-                style: ButtonStyle(overlayColor:
-                MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.focused)) return Colors.red;
-                      if (states.contains(MaterialState.hovered)) return Colors.green;
-                      if (states.contains(MaterialState.pressed)) return Colors.blue;
-                      return null; // Defer to the widget's default.
-                    })),
-                child: Text(
-                  "Create Image From PDF",
-                  style: TextStyle(fontSize: 14.0),
+                SizedBox(height: 10),
+                TextButton(
+                  style: ButtonStyle(overlayColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused))
+                      return Colors.red;
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.green;
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  })),
+                  child: Text(
+                    "Create PDF From Multiple Image",
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  onPressed: () {
+                    callMethod(2);
+                  },
                 ),
-                onPressed: () {
-                  singleFilePicker(1);
-                },
-              ),
-
-
-              SizedBox(height: 10),
-
-              TextButton(
-                style: ButtonStyle(overlayColor:
-                MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.focused)) return Colors.red;
-                      if (states.contains(MaterialState.hovered)) return Colors.green;
-                      if (states.contains(MaterialState.pressed)) return Colors.blue;
-                      return null; // Defer to the widget's default.
-                    })),
-                child: Text(
-                  "Get File Size",
-                  style: TextStyle(fontSize: 14.0),
+                SizedBox(height: 10),
+                TextButton(
+                  style: ButtonStyle(overlayColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused))
+                      return Colors.red;
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.green;
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  })),
+                  child: Text(
+                    "Create Image From PDF",
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  onPressed: () {
+                    singleFilePicker(1);
+                  },
                 ),
-                onPressed: () {
-                  singleFilePicker(2);
-                },
-              ),
-
-
-              SizedBox(height: 10),
-
-              TextButton(
-                style: ButtonStyle(overlayColor:
-                MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.focused)) return Colors.red;
-                      if (states.contains(MaterialState.hovered)) return Colors.green;
-                      if (states.contains(MaterialState.pressed)) return Colors.blue;
-                      return null; // Defer to the widget's default.
-                    })),
-                child: Text(
-                  "Clear",
-                  style: TextStyle(fontSize: 14.0),
+                SizedBox(height: 10),
+                TextButton(
+                  style: ButtonStyle(overlayColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused))
+                      return Colors.red;
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.green;
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  })),
+                  child: Text(
+                    "Get File Size",
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  onPressed: () {
+                    singleFilePicker(2);
+                  },
                 ),
-                onPressed: () {
-                  clear();
-                },
-              ),
-
-
-              SizedBox(height: 10),
-
-              TextButton(
-                style: ButtonStyle(overlayColor:
-                MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.focused)) return Colors.red;
-                      if (states.contains(MaterialState.hovered)) return Colors.green;
-                      if (states.contains(MaterialState.pressed)) return Colors.blue;
-                      return null; // Defer to the widget's default.
-                    })),
-                child: Text(
-                  "Build Info",
-                  style: TextStyle(fontSize: 14.0),
+                SizedBox(height: 10),
+                TextButton(
+                  style: ButtonStyle(overlayColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused))
+                      return Colors.red;
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.green;
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  })),
+                  child: Text(
+                    "Clear",
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  onPressed: () {
+                    clear();
+                  },
                 ),
-                onPressed: () {
-                  buildInfo();
-                },
-              ),
-          ])
-          ),
+                SizedBox(height: 10),
+                TextButton(
+                  style: ButtonStyle(overlayColor:
+                      MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.focused))
+                      return Colors.red;
+                    if (states.contains(MaterialState.hovered))
+                      return Colors.green;
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.blue;
+                    return null; // Defer to the widget's default.
+                  })),
+                  child: Text(
+                    "Build Info",
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  onPressed: () {
+                    buildInfo();
+                  },
+                ),
+              ])),
         ),
       ),
     );
   }
 
-  clear(){
+  clear() {
     files = [];
     filesPath = [];
     singleFile = "";
@@ -204,13 +205,14 @@ class _MyAppState extends State<MyApp> {
 
     if (isGranted) {
       try {
-        FilePickerResult result = await FilePicker.platform.pickFiles(allowMultiple: true);
+        FilePickerResult result =
+            await FilePicker.platform.pickFiles(allowMultiple: true);
 
         if (result != null) {
           files.addAll(result.files);
 
           for (int i = 0; i < result.files.length; i++) {
-              filesPath.add(result.files[i].path);
+            filesPath.add(result.files[i].path);
           }
         } else {
           // User canceled the picker
@@ -221,17 +223,19 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
   singleFilePicker(int type) async {
-    bool isGranted = GetPlatform.isIOS || GetPlatform.isAndroid ? await checkPermission() : true;
+    bool isGranted = GetPlatform.isIOS || GetPlatform.isAndroid
+        ? await checkPermission()
+        : true;
 
     if (isGranted) {
       try {
-        FilePickerResult result = await FilePicker.platform.pickFiles(allowMultiple: false);
+        FilePickerResult result =
+            await FilePicker.platform.pickFiles(allowMultiple: false);
         if (result != null) {
           singleFile = result.files[0].path;
 
-          switch(type){
+          switch (type) {
             case 1:
               callMethod(3);
               break;
@@ -239,7 +243,6 @@ class _MyAppState extends State<MyApp> {
             case 2:
               callMethod(4);
               break;
-
           }
         } else {
           // User canceled the picker
@@ -250,9 +253,8 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
-  callMethod(int type) async{
-    switch(type){
+  callMethod(int type) async {
+    switch (type) {
       case 1:
         String dirPath = await getFilePath("TestPDFMerger");
         mergeMultiplePDF(dirPath);
@@ -278,79 +280,73 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       // Get response either success or error
-      MergeMultiplePDFResponse response  = await PdfMerger.mergeMultiplePDF(paths: filesPath, outputDirPath: outputDirPath);
+      MergeMultiplePDFResponse response = await PdfMerger.mergeMultiplePDF(
+          paths: filesPath, outputDirPath: outputDirPath);
 
-      Get.snackbar("Info",response.message);
+      Get.snackbar("Info", response.message);
 
-      if(response.status == "success") {
+      if (response.status == "success") {
         OpenFile.open(response.response);
       }
 
       print(response.status);
-
     } on PlatformException {
       print('Failed to get platform version.');
     }
   }
-
 
   Future<void> createPDFWithMultipleImage(outputDirPath) async {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-
       // Get response either success or error
-      CreatePDFFromMultipleImageResponse response  = await PdfMerger.createPDFFromMultipleImage(
-          paths: filesPath, outputDirPath: outputDirPath);
+      CreatePDFFromMultipleImageResponse response =
+          await PdfMerger.createPDFFromMultipleImage(
+              paths: filesPath, outputDirPath: outputDirPath);
 
-      Get.snackbar("Info",response.message);
+      Get.snackbar("Info", response.message);
 
-      if(response.status == "success") {
+      if (response.status == "success") {
         OpenFile.open(response.response);
       }
 
       print(response.status);
-
     } on PlatformException {
       print('Failed to get platform version.');
     }
   }
-
 
   Future<void> createImageFromPDF(outputDirPath) async {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       // Get response either success or error
-      CreateImageFromPDFResponse response  = await PdfMerger.createImageFromPDF(path: singleFile, outputDirPath: outputDirPath,
-          createOneImage : true);
+      CreateImageFromPDFResponse response = await PdfMerger.createImageFromPDF(
+          path: singleFile, outputDirPath: outputDirPath, createOneImage: true);
 
-      Get.snackbar("Info",response.status);
+      Get.snackbar("Info", response.status);
 
-      if(response.status == "success") {
+      if (response.status == "success") {
         // print(response.response[0]);
         OpenFile.open(response.response[0]);
       }
 
       print(response.message);
-
     } on PlatformException {
       print('Failed to get platform version.');
     }
   }
 
-
   Future<void> sizeForLocalFilePath() async {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       // Get response either success or error
-      SizeFormPathResponse response  = await PdfMerger.sizeFormPath(path: singleFile);
+      SizeFormPathResponse response =
+          await PdfMerger.sizeFormPath(path: singleFile);
 
-
-      if(response.status == "success") {
+      if (response.status == "success") {
         Get.snackbar("Info", response.response);
       }
 
       print(response.status);
-
     } on PlatformException {
       print('Failed to get platform version.');
     }
@@ -360,19 +356,31 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       // Get response either success or error
-      BuildInfoResponse response =  await PdfMerger.buildInfo();
+      BuildInfoResponse response = await PdfMerger.buildInfo();
 
-        Get.snackbar("Info", "App Name : " + response.appName + "\n" +
-            "Build Number : " + response.buildDate + "\n" +
-            "Build Number with Time : " + response.buildDateWithTime + "\n" +
-            "Package Name : " + response.packageName + "\n" +
-            "Version Number : " + response.versionNumber + "\n" +
-            "Build Number : " + response.buildNumber.toString() );
+      Get.snackbar(
+          "Info",
+          "App Name : " +
+              response.appName +
+              "\n" +
+              "Build Number : " +
+              response.buildDate +
+              "\n" +
+              "Build Number with Time : " +
+              response.buildDateWithTime +
+              "\n" +
+              "Package Name : " +
+              response.packageName +
+              "\n" +
+              "Version Number : " +
+              response.versionNumber +
+              "\n" +
+              "Build Number : " +
+              response.buildNumber.toString());
     } on PlatformException {
       print('Failed to get platform version.');
     }
   }
-
 
   Future<bool> checkPermission() async {
     await PermissionHandler().requestPermissions([PermissionGroup.storage]);

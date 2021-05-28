@@ -30,7 +30,6 @@ void main() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
       return '47';
     });
-
   });
 
   tearDown(() {
@@ -60,5 +59,4 @@ void main() {
   test('buildInfo', () async {
     expect(PdfMerger.buildInfo, '47');
   });
-
 }

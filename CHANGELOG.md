@@ -1,3 +1,6 @@
+## 0.0.5
+* Stable version release
+
 ## 0.0.4-beta1
 
 * Added build info method to get package info buildDate, buildDateWithTime, versionName, versionCode, packageName, appName
