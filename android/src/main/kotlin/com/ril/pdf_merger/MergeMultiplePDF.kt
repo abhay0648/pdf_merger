@@ -42,7 +42,8 @@ class MergeMultiplePDF(getContext : Context, getResult : MethodChannel.Result) {
             val fileOutputStream = FileOutputStream(file)
             try {
                 ut.destinationStream = fileOutputStream
-                ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly())
+//                ut.mergeDocuments(MemoryUsageSetting.setupTempFileOnly())
+                ut.mergeDocuments(true)
                 status = "success"
             } catch (e: Exception){
                 status = "error"
