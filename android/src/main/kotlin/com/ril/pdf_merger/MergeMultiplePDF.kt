@@ -2,9 +2,9 @@ package com.ril.pdf_merger
 
 import android.content.Context
 import io.flutter.plugin.common.MethodChannel
-import com.tom_roush.pdfbox.io.MemoryUsageSetting
-import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
-import com.tom_roush.pdfbox.util.PDFBoxResourceLoader
+import com.ril.pdf_box.pdfbox.io.MemoryUsageSetting
+import com.ril.pdf_box.pdfbox.multipdf.PDFMergerUtility
+import com.ril.pdf_box.pdfbox.util.PDFBoxResourceLoader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

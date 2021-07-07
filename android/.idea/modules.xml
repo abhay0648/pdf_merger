@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/pdf_merger.iml" filepath="$PROJECT_DIR$/.idea/modules/pdf_merger.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/pdf_merger.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/pdf_merger.library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sample/pdf_merger.sample.iml" filepath="$PROJECT_DIR$/.idea/modules/sample/pdf_merger.sample.iml" />
     </modules>
   </component>
 </project>
