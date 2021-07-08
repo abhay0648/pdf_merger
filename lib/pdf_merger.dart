@@ -12,6 +12,9 @@ class PdfMerger {
   static final createImageFromPDFResponse = CreateImageFromPDFResponse().obs;
   static final sizeFormFilePathResponse = SizeFormPathResponse().obs;
 
+  /// For Merger multiple PDF
+  /// paths is a list of paths, example List<String> allSelectedFilePath.
+  ///  outputDirPath is output path with filename, example /user/android/download/ABC.pdf
   static Future<MergeMultiplePDFResponse> mergeMultiplePDF(
       {required List<String> paths, required String outputDirPath}) async {
     final Map<String, dynamic> params = <String, dynamic>{
@@ -60,6 +63,10 @@ class PdfMerger {
     return mergeMultiplePDFResponse.value;
   }
 
+  /// For Creating a PDF from multiple image
+  /// paths is a list of paths, example List<String> allSelectedFilePath.
+  /// outputDirPath is output path with filename, example /user/android/download/ABC.pdf
+  /// Optional params maxWidth : default set to 360, maxHeight : default set to 360, needImageCompressor : default set to true.
   static Future<CreatePDFFromMultipleImageResponse> createPDFFromMultipleImage(
       {required List<String> paths,
       required String outputDirPath,
@@ -118,6 +125,10 @@ class PdfMerger {
     return createPDFFromMultipleImageResponse.value;
   }
 
+  /// For Creating a Image from PDF
+  /// paths selected file path (String). Example user/android.downlaod/MYPDF.pdf
+  /// outputDirPath is output path with filename, example /user/android/download/ABC.pdf
+  /// Optional params maxWidth : default set to 360, maxHeight : default set to 360, createOneImage : default set to true.
   static Future<CreateImageFromPDFResponse> createImageFromPDF(
       {required String path,
       required String outputDirPath,
@@ -171,6 +182,8 @@ class PdfMerger {
     return createImageFromPDFResponse.value;
   }
 
+  /// Check File Size of any File
+  /// paths selected file path (String). Example user/android.downlaod/MYPDF.pdf
   static Future<SizeFormPathResponse> sizeFormPath(
       {required String path}) async {
     final Map<String, dynamic> params = <String, dynamic>{'path': path};
@@ -203,13 +216,14 @@ class PdfMerger {
     return sizeFormFilePathResponse.value;
   }
 
+  /// For Information about build, example buildDate, app versionName, app versionCode, packageName, packageName.
   static Future<BuildInfoResponse> buildInfo() async {
     String buildDate = await _channel.invokeMethod('buildDate');
     String buildDateWithTime = await _channel.invokeMethod('buildDateWithTime');
     String versionName = await _channel.invokeMethod('versionName');
     String versionCode = await _channel.invokeMethod('versionCode');
     String packageName = await _channel.invokeMethod('packageName');
-    String appName = await _channel.invokeMethod('appName');
+    String appName = await _channel.invokeMethod('packageName');
 
     return BuildInfoResponse(
         buildDate: buildDate == "null" || buildDate == "error" ? "" : buildDate,

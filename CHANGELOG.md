@@ -1,3 +1,6 @@
+## 0.0.6
+* Remove PDFBox from gradle
+
 ## 0.0.5
 * Stable version release
 

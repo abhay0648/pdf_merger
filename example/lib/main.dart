@@ -23,7 +23,6 @@ class _MyAppState extends State<MyApp> {
   List<PlatformFile> files;
   List<String> filesPath;
   String singleFile;
-  // GetStream<T> subject = GetStream<T>();
 
   @override
   void initState() {
@@ -277,9 +276,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> mergeMultiplePDF(outputDirPath) async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
+    /// Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      // Get response either success or error
+      /// Get response either success or error
       MergeMultiplePDFResponse response = await PdfMerger.mergeMultiplePDF(
           paths: filesPath, outputDirPath: outputDirPath);
 
@@ -296,9 +295,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> createPDFWithMultipleImage(outputDirPath) async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
+    /// Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      // Get response either success or error
+      /// Get response either success or error
       CreatePDFFromMultipleImageResponse response =
           await PdfMerger.createPDFFromMultipleImage(
               paths: filesPath, outputDirPath: outputDirPath);
@@ -316,16 +315,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> createImageFromPDF(outputDirPath) async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
+    /// Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      // Get response either success or error
+      /// Get response either success or error
       CreateImageFromPDFResponse response = await PdfMerger.createImageFromPDF(
           path: singleFile, outputDirPath: outputDirPath, createOneImage: true);
 
       Get.snackbar("Info", response.status);
 
       if (response.status == "success") {
-        // print(response.response[0]);
         OpenFile.open(response.response[0]);
       }
 
@@ -336,9 +334,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> sizeForLocalFilePath() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
+    /// Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      // Get response either success or error
+      /// Get response either success or error
       SizeFormPathResponse response =
           await PdfMerger.sizeFormPath(path: singleFile);
 
@@ -353,9 +351,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> buildInfo() async {
-    // Platform messages may fail, so we use a try/catch PlatformException.
+    /// Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      // Get response either success or error
+      /// Get response either success or error
       BuildInfoResponse response = await PdfMerger.buildInfo();
 
       Get.snackbar(
