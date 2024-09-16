@@ -1,3 +1,7 @@
+## 0.0.7
+* version bump gradle
+  
+
 ## 0.0.6
 * Remove PDFBox from gradle
 
