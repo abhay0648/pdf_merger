@@ -4,14 +4,14 @@ version: 0.0.6
 homepage: https://github.com/abhay0648/pdf_merger
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
-  flutter: ">=1.20.0"
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: "3.22.1"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  get: ^4.1.4
+  get: ^4.6.6
 
 
 dev_dependencies:
@@ -33,6 +33,8 @@ flutter:
         package: com.ril.pdf_merger
         pluginClass: PdfMergerPlugin
       ios:
+        pluginClass: PdfMergerPlugin
+      macos:
         pluginClass: PdfMergerPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
